@@ -149,6 +149,14 @@ Entre as funcionalidades previstas estão o gerenciamento de pacientes e atendim
 
 As funcionalidades devem ser implementadas de forma incremental, priorizando uma base funcional antes de adicionar recursos mais complexos.
 
+## 10. Comandos de Compilação e Execução (Makefile)
 
+A automação da compilação, execução do programa e execução dos testes é realizada através do `Makefile`. Os principais comandos disponíveis no terminal são:
+
+* **`make`** (ou **`make all`**): Compila todo o código-fonte presente na pasta `src/` e gera o ficheiro executável principal em `bin/programa`.
+* **`make run`**: Compila o sistema (caso existam alterações pendentes) e executa o programa principal a partir do ficheiro `src/main.cpp`.
+* **`make test`**: Compila as classes da pasta `src/` juntamente com todos os ficheiros da pasta `tests/` e executa a suíte completa de testes.
+* **`make test-<nome_do_teste>`**: Compila e executa um teste individual específico sem a extensão `.cpp` (exemplo: `make test-test_filas`).
+* **`make clean`**: Remove todos os ficheiros temporários de compilação e executáveis gerados, limpando as pastas `build/` e `bin/`.
 
 **Última atualização:** a preencher pelo grupo.
