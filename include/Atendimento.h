@@ -22,16 +22,15 @@ private:
     int m_id;
     std::string m_data;
     StatusAtendimento m_status;
-    Paciente* m_paciente;         // nullptr se criado só com o id do paciente
+    Paciente* m_paciente;
     std::vector<ProfissionalSaude*> m_equipeResponsavel;
     FilaAtendimento* m_fila;
     std::vector<Procedimento> m_procedimentos;
 
 public:
-    // Usado pela fila: só com prioridade, tempo e id do paciente
-    Atendimento(int prioridade, double tempoEstimadoMin, const std::string& idPaciente);
-    // Completo: prioridade e idPaciente vêm do próprio paciente
-    Atendimento(int id, const std::string& data, Paciente* paciente, double tempoEstimadoMin);
+    // Ex.: Atendimento(5, 30.0, "P1", 1, "2026-10-31", &paciente)
+    Atendimento(int prioridade, double tempoEstimadoMin, const std::string& idPaciente,
+                int id, const std::string& data, Paciente* paciente);
     ~Atendimento();
 
     void inicializar();                          // EM_ESPERA -> EM_ATENDIMENTO
