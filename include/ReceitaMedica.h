@@ -12,13 +12,13 @@
 
 class ReceitaMedica {
 private:
-    int id;
-    std::string data;
-    std::string observacoes;
-    Paciente* paciente;
-    ProfissionalSaude* medico;
-    std::vector<ItemReceita> itens;   // "remedios" no diagrama
-    bool emitida;                     // depois de emitida não pode mais mudar
+    int m_id;
+    std::string m_data;
+    std::string m_observacoes;
+    Paciente* m_paciente;
+    ProfissionalSaude* m_medico;
+    std::vector<ItemReceita> m_itens;
+    bool m_emitida;   // depois de emitida, a receita não pode mais mudar
 
 public:
     ReceitaMedica(int id, const std::string& data,
@@ -32,7 +32,6 @@ public:
     void emitir();
     std::string gerarTexto() const;   // receita formatada para exibir/imprimir
 
-    // Getters
     int getId() const;
     std::string getData() const;
     std::string getObservacoes() const;
@@ -41,6 +40,7 @@ public:
     const std::vector<ItemReceita>& getItens() const;
     bool foiEmitida() const;
 
+    void setObservacoes(const std::string& observacoes);
 };
 
 #endif

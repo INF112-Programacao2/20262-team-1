@@ -3,9 +3,9 @@
 
 // Estados do atendimento 
 enum class StatusAtendimento {
-    EmEspera,
-    EmAtendimento,
-    Finalizado
+    EM_ESPERA,
+    EM_ATENDIMENTO,
+    FINALIZADO
 };
 
 #endif

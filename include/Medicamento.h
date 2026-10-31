@@ -3,13 +3,12 @@
 
 #include <string>
 
-// Só os dados do remédio em si. Dosagem e quantidade dependem
-// da receita, por isso ficam em ItemReceita.
+// Dosagem e quantidade dependem da receita, por isso ficam em ItemReceita
 class Medicamento {
 private:
-    int id;
-    std::string nome;
-    std::string descricao;
+    int m_id;
+    std::string m_nome;
+    std::string m_descricao;
 
 public:
     Medicamento(int id, const std::string& nome, const std::string& descricao);
@@ -22,5 +21,4 @@ public:
 
     void setDescricao(const std::string& descricao);
 };
-
 #endif

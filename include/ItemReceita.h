@@ -9,10 +9,10 @@
 // Uma linha da receita: qual medicamento, quanto e como usar
 class ItemReceita {
 private:
-    Medicamento* medicamento;
-    std::string dosagem;        // ex.: "500 mg"
-    int quantidade;             // unidades prescritas
-    std::string descricaoUso;   // ex.: "1 comprimido a cada 8 horas por 7 dias"
+    Medicamento* m_medicamento;
+    std::string m_dosagem;        // ex.: "500 mg"
+    int m_quantidade;
+    std::string m_descricaoUso;   // ex.: "1 comprimido a cada 8 horas por 7 dias"
 
 public:
     ItemReceita(Medicamento* medicamento, const std::string& dosagem,
@@ -27,5 +27,6 @@ public:
     void setQuantidade(int quantidade);
     void setDescricaoUso(const std::string& descricaoUso);
 };
+
 
 #endif

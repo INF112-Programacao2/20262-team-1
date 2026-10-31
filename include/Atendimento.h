@@ -14,35 +14,43 @@
 
 class Atendimento {
 private:
-    int id;
-    std::string data;
-    StatusAtendimento status;
-    Paciente* paciente;
-    std::vector<ProfissionalSaude*> equipeResponsavel;
-    FilaAtendimento* fila;   // fila em que o atendimento está esperando
-    // unique_ptr: guarda Exame, Cirurgia... como Procedimento (polimorfismo)
-    // e apaga tudo junto com o atendimento (composição)
-    std::vector<std::unique_ptr<Procedimento>> procedimentos;
+    // Usados pela FilaAtendimento para ordenar e calcular o tempo de espera
+    int m_prioridade;             // de PRIORIDADE_MINIMA (1) a PRIORIDADE_MAXIMA (5)
+    double m_tempoEstimadoMin;    // definido ao criar o atendimento
+    std::string m_idPaciente;
+
+    int m_id;
+    std::string m_data;
+    StatusAtendimento m_status;
+    Paciente* m_paciente;         // nullptr se criado só com o id do paciente
+    std::vector<ProfissionalSaude*> m_equipeResponsavel;
+    FilaAtendimento* m_fila;
+    std::vector<Procedimento> m_procedimentos;
 
 public:
-    Atendimento(int id, const std::string& data, Paciente* paciente);
+    // Usado pela fila: só com prioridade, tempo e id do paciente
+    Atendimento(int prioridade, double tempoEstimadoMin, const std::string& idPaciente);
+    // Completo: prioridade e idPaciente vêm do próprio paciente
+    Atendimento(int id, const std::string& data, Paciente* paciente, double tempoEstimadoMin);
+    ~Atendimento();
 
-    // Ciclo de vida
-    void inicializar();                          // EmEspera -> EmAtendimento
+    void inicializar();                          // EM_ESPERA -> EM_ATENDIMENTO
     void atualizarStatus(StatusAtendimento novoStatus);
     bool verificarPendencias() const;            // true se há procedimento não executado
     bool finalizar();                            // false se ainda há pendências
 
-    // Procedimentos
-    void adicionarProcedimento(std::unique_ptr<Procedimento> procedimento);
-    void executarProcedimentos();                // chama executar() de cada um
-    std::vector<Procedimento*> getProcedimentos() const;
+    void adicionarProcedimento(const Procedimento& procedimento);
+    void executarProcedimentos();
+    const std::vector<Procedimento>& getProcedimentos() const;
 
-    // Equipe
     void adicionarProfissional(ProfissionalSaude* profissional);
     const std::vector<ProfissionalSaude*>& getEquipeResponsavel() const;
 
-    // Getters
+    int getPrioridade() const;
+    void setPrioridade(int novaPrioridade);      // ignora valores fora da faixa
+    double getTempoEstimadoMin() const;
+    std::string getIdPaciente() const;
+
     int getId() const;
     std::string getData() const;
     StatusAtendimento getStatus() const;
@@ -51,5 +59,6 @@ public:
 
     void setFila(FilaAtendimento* fila);
 };
+
 
 #endif

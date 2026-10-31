@@ -6,34 +6,32 @@
 #include "ProfissionalSaude.h"
 
 class Procedimento {
-protected:
-    int id;
-    std::string nome;
-    std::string descricao;
-    int duracaoMin;                    // duração estimada em minutos
-    std::string data;                  // ex.: "2026-10-25 14:30"
-    ProfissionalSaude* responsavel;    // médico/enfermeiro responsável
-    bool executado;
+private:
+    int m_id;
+    std::string m_nome;
+    std::string m_descricao;
+    std::string m_tipo;                  // ex.: "Exame", "Cirurgia", "Consulta"
+    int m_duracaoMin;
+    std::string m_data;                  // ex.: "2026-10-25 14:30"
+    ProfissionalSaude* m_responsavel;    // médico/enfermeiro responsável
+    bool m_executado;
 
 public:
     Procedimento(int id, const std::string& nome, const std::string& descricao,
-                 int duracaoMin, ProfissionalSaude* responsavel);
-    virtual ~Procedimento() = default;
+                 const std::string& tipo, int duracaoMin,
+                 ProfissionalSaude* responsavel);
 
-    virtual void executar() = 0;              // cada subclasse implementa
-    virtual std::string getTipo() const = 0;  // "Exame", "Cirurgia", ...
-
+    void executar();   // o que acontece depende do tipo
     bool foiExecutado() const;
 
-    // Getters
     int getId() const;
     std::string getNome() const;
     std::string getDescricao() const;
+    std::string getTipo() const;
     int getDuracaoMin() const;
     std::string getData() const;
     ProfissionalSaude* getResponsavel() const;
 
-    // Setters
     void setData(const std::string& data);
     void setResponsavel(ProfissionalSaude* responsavel);
 };
