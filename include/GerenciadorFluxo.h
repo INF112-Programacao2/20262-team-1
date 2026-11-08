@@ -6,27 +6,30 @@
 
 class Atendimento;
 class Setor;
+class FilaAtendimento; 
 
 class GerenciadorFluxo {
 private:
-    int limiteLotacaoAlerta; //limite para geração do alerta
+    int m_limiteLotacaoAlerta;   // Para o Setor (ex: 80%)
+    int m_limiteTamanhoFila;     // Quantidade máx de pessoas aceitável na fila
+    double m_limiteTempoEspera;  // Tempo máx de espera tolerável (em minutos)
 
 public:
-    GerenciadorFluxo(int limiteAlerta = 80);
+    GerenciadorFluxo(int alertaLotacao, int alertaFila, double alertaTempo );
     ~GerenciadorFluxo();
 
-    // Recebe a lista de setores do hospital para poder analisar e recomendar o melhor
     Setor* recomendarProximoSetor(Atendimento* a, const std::vector<Setor*>& setoresAtivos);
-    
     bool verificarMudancaSetor(Atendimento* a);
-
-    // Analisa a lotação do Setor
     bool monitorarSobrecargas(Setor* s);
+    
+    std::string detectarGargalos(const FilaAtendimento* fila) const;
 
-    std::string detectarGargalos(Setor* s);
-
+    // Setters/Getters se precisar alterar os limites depois
+    void setLimitesFila(int tamanhoMax, double tempoMax);
     void setLimiteLotacaoAlerta(int limite);
+
     int getLimiteLotacaoAlerta() const;
+    int getLimitesFila() const;
 };
 
 #endif

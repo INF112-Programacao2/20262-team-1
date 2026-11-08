@@ -1,17 +1,28 @@
 #include "../include/GerenciadorFluxo.h"
 #include "../include/Atendimento.h"
+#include "../include/FilaAtendimento.h"
 // #include "../include/Setor.h" // mudar quando setor.h estiver pronto
 
-GerenciadorFluxo::GerenciadorFluxo(int limiteAlerta) : limiteLotacaoAlerta(limiteAlerta) {}
+GerenciadorFluxo::GerenciadorFluxo(int alertaLotacao, int alertaFila, double alertaTempo) 
+    : m_limiteLotacaoAlerta(alertaLotacao), m_limiteTamanhoFila(alertaFila), m_limiteTempoEspera(alertaTempo) {}
 
 GerenciadorFluxo::~GerenciadorFluxo() {}
 
 void GerenciadorFluxo::setLimiteLotacaoAlerta(int limite) {
-    limiteLotacaoAlerta = limite;
+    m_limiteLotacaoAlerta = limite;
 }
 
 int GerenciadorFluxo::getLimiteLotacaoAlerta() const {
-    return limiteLotacaoAlerta;
+    return m_limiteLotacaoAlerta;
+}
+
+void GerenciadorFluxo::setLimitesFila(int tamanhoMax, double tempoMax){
+    m_limiteTamanhoFila = tamanhoMax;
+    m_limiteTempoEspera = tempoMax;
+}
+
+int GerenciadorFluxo::getLimitesFila() const{
+    return m_limiteTamanhoFila, m_limiteTempoEspera;
 }
 
 Setor* GerenciadorFluxo::recomendarProximoSetor(Atendimento* a, const std::vector<Setor*>& setoresAtivos) {
@@ -50,8 +61,8 @@ bool GerenciadorFluxo::monitorarSobrecargas(Setor* s) {
     }
     
     /* 
-     * ATENÇÃO: Descomente e ajuste essa lógica quando a Pessoa 3 terminar a classe Setor.
-     * Ela precisará garantir que os métodos abaixo existam.
+     * ajustar a função quando a Ana terminar a classe Setor.
+     *
      * 
      * int capacidade = s->getCapacidadeMaxima();
      * if (capacidade == 0) return true; // Evita divisão por zero
@@ -62,24 +73,33 @@ bool GerenciadorFluxo::monitorarSobrecargas(Setor* s) {
      * return percentualOcupacao >= limiteLotacaoAlerta;
      */
      
-    return false; // Retorno provisório para compilar enquanto a classe Setor não existe
+    return false; 
 }
 
-std::string GerenciadorFluxo::detectarGargalos(Setor* s) {
-    if (s == nullptr) {
-        return "Erro: Setor não identificado.";
+std::string GerenciadorFluxo::detectarGargalos(const FilaAtendimento* fila) const {
+    if (fila == nullptr) {
+        return "Erro: Fila não identificada.";
     }
 
-    if (monitorarSobrecargas(s)) {
-        return "Gargalo Crítico: Ocupação do setor ultrapassou o limite de " + std::to_string(limiteLotacaoAlerta) + "%.";
+    //Verifica se tem muita gente na fila
+    if (fila->getTamanho() >= m_limiteTamanhoFila) {
+        return "Gargalo Crítico: Fila muito longa! (" + 
+               std::to_string(fila->getTamanho()) + " pacientes aguardando).";
     }
-    
-    /* 
-     * Futuramente, você pode usar os métodos do Setor para verificar leitos vazios:
-     * if (s->consultarLeitosDisponiveis().empty()) {
-     *     return "Gargalo: Fila de espera travada por falta de leitos.";
-     * }
-     */
 
-    return "Fluxo normal. Sem gargalos detectados.";
+    //Verifica o tempo de espera do ÚLTIMO paciente da fila
+    // Se a fila não está vazia, o último paciente é o que vai esperar mais tempo
+    if (!fila->estaVazia()) {
+        const auto& lista = fila->getFila();
+        Atendimento* ultimoDaFila = lista.back();
+        
+        double tempoEsperaTotal = fila->estimarTempoDeFila(ultimoDaFila);
+        
+        if (tempoEsperaTotal >= m_limiteTempoEspera) {
+            return "Gargalo de Tempo: Pacientes esperando mais de " + 
+                   std::to_string(m_limiteTempoEspera) + " minutos.";
+        }
+    }
+
+    return "Fluxo normal na fila. Sem gargalos detectados.";
 }
