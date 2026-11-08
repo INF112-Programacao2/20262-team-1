@@ -3,7 +3,8 @@
 
 #include <string>
 
-#include "ProfissionalSaude.h"
+class ProfissionalSaude;
+// #include "ProfissionalSaude.h"
 
 class Procedimento {
 private:

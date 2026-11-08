@@ -7,7 +7,8 @@
 #include "ItemReceita.h"   // composição: os itens pertencem à receita
 #include "Paciente.h"
 #include "Medicamento.h"
-#include "ProfissionalSaude.h"
+class ProfissionalSaude;
+//#include "ProfissionalSaude.h"
 
 
 class ReceitaMedica {

@@ -3,10 +3,12 @@
 
 #include <string>
 #include <vector>
-#include "Usuario.h"         // Pessoa 4: heranca precisa da classe completa
+class Usuario;
+// #include "Usuario.h"         // Pessoa 4: heranca precisa da classe completa
 #include "Prioridade.h"
 #include "StatusAtendimento.h"
-#include "ReceitaMedica.h"   // composicao: o paciente guarda suas receitas
+class ReceitaMedica;
+// #include "ReceitaMedica.h"   // composicao: o paciente guarda suas receitas
 
 
 class Atendimento;

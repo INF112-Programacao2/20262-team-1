@@ -26,19 +26,34 @@ int GerenciadorFluxo::getLimitesFila() const{
 }
 
 Setor* GerenciadorFluxo::recomendarProximoSetor(Atendimento* a, const std::vector<Setor*>& setoresAtivos) {
-    if (a == nullptr || setoresAtivos.empty()) {
+if (a == nullptr || setoresAtivos.empty()) {
         return nullptr;
     }
 
-    // Lógica inteligente: Varre a lista de setores e recomenda o primeiro que NÃO esteja sobrecarregado.
-    // No futuro, isso pode ser aprimorado para cruzar a especialidade do Setor com a necessidade do Atendimento.
+    /* 
+     * LÓGICA DEFINITIVA (Descomente quando Setor.hpp e os métodos de Atendimento estiverem prontos)
+     *
+     * int idEspecialidadeNecessaria = a->getIdEspecialidadeNecessaria();
+     *
+     * for (Setor* setor : setoresAtivos) {
+     *     // 1. Verifica se o setor atende a especialidade do paciente
+     *     bool temEspecialidade = (setor->buscarEspecialidade(idEspecialidadeNecessaria) != nullptr);
+     *     
+     *     // 2. Verifica se o setor tem capacidade (não está sobrecarregado)
+     *     if (temEspecialidade && !monitorarSobrecargas(setor)) {
+     *         return setor; 
+     *     }
+     * }
+     */
+
+    // Lógica provisória ("burra") só para o seu código compilar hoje:
     for (Setor* setor : setoresAtivos) {
         if (!monitorarSobrecargas(setor)) {
             return setor; 
         }
     }
 
-    return nullptr; // Retorna nulo se o hospital inteiro estiver lotado
+    return nullptr;
 }
 
 bool GerenciadorFluxo::verificarMudancaSetor(Atendimento* a) {
