@@ -1,5 +1,5 @@
-#include "../include/FilaAtendimento.hpp"
-#include "../include/Atendimento.hpp"
+#include "../include/FilaAtendimento.h"
+#include "../include/Atendimento.h"
 #include <vector>
 #include <algorithm>
 #include <iostream>

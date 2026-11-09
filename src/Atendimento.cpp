@@ -1,7 +1,9 @@
 
-#include "Atendimento.h"
+#include "../include/Atendimento.h"
+#include "../include/Procedimento.h"
 
 #include <iostream>
+#include <algorithm>
 #include "Paciente.h"
 #include "Prioridade.h"
 
