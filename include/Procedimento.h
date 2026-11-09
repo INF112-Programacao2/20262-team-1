@@ -4,7 +4,6 @@
 #include <string>
 
 class ProfissionalSaude;
-// #include "ProfissionalSaude.h"
 
 class Procedimento {
 private:
