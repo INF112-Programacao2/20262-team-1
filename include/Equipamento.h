@@ -6,7 +6,7 @@
 
 class Equipamento : public RecursoHospitalar {
 private:
-    StatusEquipamento status;
+    StatusEquipamento m_status;
 
 public:
     Equipamento(int id, std::string nome, std::string descricao);
