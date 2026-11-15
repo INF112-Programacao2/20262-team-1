@@ -1,6 +1,5 @@
 #include "../include/Leito.h"
 #include "../include/StatusLeito.h"
-#include "../include/Paciente.h"
 
 Leito::Leito(int id)
     : m_id(id),

@@ -12,5 +12,11 @@ void Material::retirar(double qtd) {
 }
 
 void Material::reabastecer(double qtd) {
-    m_quantidade += qtd;
+    if (qtd > 0) {
+        m_quantidade += qtd;
+    }
+}
+
+double Material::getQuantidade() {
+    return m_quantidade;
 }

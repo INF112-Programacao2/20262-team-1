@@ -15,5 +15,6 @@ public:
 
     void retirar(double qtd);
     void reabastecer(double qtd);
+    double getQuantidade();
 };
 #endif // MATERIAL_H
