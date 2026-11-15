@@ -1,4 +1,3 @@
-
 #include "Hospital.h"
 #include "Setor.h"
 
@@ -22,7 +21,7 @@ void Hospital::adicionarSetor(Setor* s) {
 
 void Hospital::removerSetor(Setor* s) {
     if (s != nullptr) {
-        for (int i=0; i<m_setores.size(); i++) {
+        for (int i=0; i<static_cast<int>(m_setores.size()); i++) {
             if (m_setores[i] == s) {
                 delete m_setores[i];
                 m_setores.erase(m_setores.begin()+i);
@@ -33,7 +32,7 @@ void Hospital::removerSetor(Setor* s) {
 }
 
 void Hospital::removerSetor(int sID) {
-    for (int i=0; i<m_setores.size(); i++) {
+    for (int i=0; i<static_cast<int>(m_setores.size()); i++) {
         if (m_setores[i]->getId() == sID) {
             delete m_setores[i];
             m_setores.erase(m_setores.begin()+i);
@@ -43,7 +42,7 @@ void Hospital::removerSetor(int sID) {
 }
 
 Setor* Hospital::buscarSetor(int id) {
-    for (int i=0; i<m_setores.size(); i++) {
+    for (int i=0; i<static_cast<int>(m_setores.size()); i++) {
         if (m_setores[i]->getId() == id) {
             return m_setores[i];
         }
