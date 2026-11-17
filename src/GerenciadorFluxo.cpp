@@ -1,7 +1,7 @@
 #include "../include/GerenciadorFluxo.h"
 #include "../include/Atendimento.h"
 #include "../include/FilaAtendimento.h"
-// #include "../include/Setor.h" // mudar quando setor.h estiver pronto
+#include "../include/Setor.h"
 
 GerenciadorFluxo::GerenciadorFluxo(int alertaLotacao, int alertaFila, double alertaTempo) 
     : m_limiteLotacaoAlerta(alertaLotacao), m_limiteTamanhoFila(alertaFila), m_limiteTempoEspera(alertaTempo) {}
@@ -16,44 +16,53 @@ int GerenciadorFluxo::getLimiteLotacaoAlerta() const {
     return m_limiteLotacaoAlerta;
 }
 
-void GerenciadorFluxo::setLimitesFila(int tamanhoMax, double tempoMax){
+void GerenciadorFluxo::setLimitesFila(int tamanhoMax, double tempoMax) {
     m_limiteTamanhoFila = tamanhoMax;
     m_limiteTempoEspera = tempoMax;
 }
 
-int GerenciadorFluxo::getLimitesFila() const{
-    return m_limiteTamanhoFila, m_limiteTempoEspera;
+int GerenciadorFluxo::getLimiteTamanhoFila() const {
+    return m_limiteTamanhoFila;
+}
+
+double GerenciadorFluxo::getLimiteTempoEspera() const {
+    return m_limiteTempoEspera;
 }
 
 Setor* GerenciadorFluxo::recomendarProximoSetor(Atendimento* a, const std::vector<Setor*>& setoresAtivos) {
-if (a == nullptr || setoresAtivos.empty()) {
+    if (a == nullptr || setoresAtivos.empty()) {
         return nullptr;
     }
 
-    /* 
-     * LÓGICA DEFINITIVA (Descomente quando Setor.hpp e os métodos de Atendimento estiverem prontos)
-     *
-     * int idEspecialidadeNecessaria = a->getIdEspecialidadeNecessaria();
-     *
-     * for (Setor* setor : setoresAtivos) {
-     *     // 1. Verifica se o setor atende a especialidade do paciente
-     *     bool temEspecialidade = (setor->buscarEspecialidade(idEspecialidadeNecessaria) != nullptr);
-     *     
-     *     // 2. Verifica se o setor tem capacidade (não está sobrecarregado)
-     *     if (temEspecialidade && !monitorarSobrecargas(setor)) {
-     *         return setor; 
-     *     }
-     * }
-     */
+    Setor* melhorSetor = nullptr;
+    double menorTaxaOcupacao = 101.0; // Começa acima de 100% para encontrar o menor
+    bool isEmergencia = (a->getPrioridade() >= 4);
 
-    // Lógica provisória ("burra") só para o seu código compilar hoje:
     for (Setor* setor : setoresAtivos) {
-        if (!monitorarSobrecargas(setor)) {
-            return setor; 
+        if (setor == nullptr || monitorarSobrecargas(setor)) {
+            continue;
+        }
+
+        // Se for urgência/emergência (prioridade 4 ou 5), exige que o setor tenha leito livre
+        if (isEmergencia && setor->consultarLeitosDisponiveis().empty()) {
+            continue;
+        }
+
+        int capacidade = setor->getCapacidade();
+        if (capacidade <= 0) {
+            continue;
+        }
+
+        double taxaOcupacao = (static_cast<double>(setor->calcularLotacao()) / capacidade) * 100.0;
+
+        // Balanceamento de carga: escolhe o setor com menor percentual de lotação
+        if (taxaOcupacao < menorTaxaOcupacao) {
+            menorTaxaOcupacao = taxaOcupacao;
+            melhorSetor = setor;
         }
     }
 
-    return nullptr;
+    return melhorSetor;
 }
 
 bool GerenciadorFluxo::verificarMudancaSetor(Atendimento* a) {
@@ -61,13 +70,9 @@ bool GerenciadorFluxo::verificarMudancaSetor(Atendimento* a) {
         return false;
     }
     
-    // Regra de negócio: Se a prioridade do paciente for de emergência (ex: 4 ou 5),
-    // o sistema sinaliza que ele precisa de mudança de setor (ex: ir direto para UTI).
-    if (a->getPrioridade() >= 4) {
-        return true; 
-    }
-
-    return false;
+    // Se a prioridade do paciente subir para urgente/emergência (4 ou 5),
+    // sinaliza necessidade de transferência (ex: da triagem/enfermaria para UTI)
+    return a->getPrioridade() >= 4;
 }
 
 bool GerenciadorFluxo::monitorarSobrecargas(Setor* s) {
@@ -75,35 +80,29 @@ bool GerenciadorFluxo::monitorarSobrecargas(Setor* s) {
         return false;
     }
     
-    /* 
-     * ajustar a função quando a Ana terminar a classe Setor.
-     *
-     * 
-     * int capacidade = s->getCapacidadeMaxima();
-     * if (capacidade == 0) return true; // Evita divisão por zero
-     * 
-     * int ocupacao = s->calcularLotacao();
-     * double percentualOcupacao = (static_cast<double>(ocupacao) / capacidade) * 100.0;
-     * 
-     * return percentualOcupacao >= limiteLotacaoAlerta;
-     */
-     
-    return false; 
+    int capacidade = s->getCapacidade();
+    if (capacidade <= 0) {
+        return true; // Evita divisão por zero e considera setor sem capacidade como indisponível
+    }
+    
+    int ocupacao = s->calcularLotacao();
+    double percentualOcupacao = (static_cast<double>(ocupacao) / capacidade) * 100.0;
+    
+    return percentualOcupacao >= m_limiteLotacaoAlerta;
 }
 
 std::string GerenciadorFluxo::detectarGargalos(const FilaAtendimento* fila) const {
     if (fila == nullptr) {
-        return "Erro: Fila não identificada.";
+        return "Erro: Fila nao identificada.";
     }
 
-    //Verifica se tem muita gente na fila
+    // 1. Verifica volume de pacientes na fila
     if (fila->getTamanho() >= m_limiteTamanhoFila) {
-        return "Gargalo Crítico: Fila muito longa! (" + 
+        return "Gargalo Critico: Fila muito longa! (" + 
                std::to_string(fila->getTamanho()) + " pacientes aguardando).";
     }
 
-    //Verifica o tempo de espera do ÚLTIMO paciente da fila
-    // Se a fila não está vazia, o último paciente é o que vai esperar mais tempo
+    // 2. Verifica o tempo de espera projetado para o último paciente da fila
     if (!fila->estaVazia()) {
         const auto& lista = fila->getFila();
         Atendimento* ultimoDaFila = lista.back();
@@ -112,7 +111,7 @@ std::string GerenciadorFluxo::detectarGargalos(const FilaAtendimento* fila) cons
         
         if (tempoEsperaTotal >= m_limiteTempoEspera) {
             return "Gargalo de Tempo: Pacientes esperando mais de " + 
-                   std::to_string(m_limiteTempoEspera) + " minutos.";
+                   std::to_string(static_cast<int>(m_limiteTempoEspera)) + " minutos.";
         }
     }
 

@@ -60,6 +60,10 @@ bool FilaAtendimento::estaVazia() const{
     return m_fila.empty();
 }
 
+const std::vector<Atendimento*>& FilaAtendimento::getFila() const {
+    return m_fila;
+}
+
 void FilaAtendimento::reorganizarFila() {
     std::stable_sort(m_fila.begin(), m_fila.end(), [](const Atendimento* a, const Atendimento* b) {
         return a->getPrioridade() > b->getPrioridade(); // Vai comparando cada atendimento pela sua prioridade, de modo que a prioridade maior fique em cima
