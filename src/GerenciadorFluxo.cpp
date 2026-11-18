@@ -96,13 +96,13 @@ std::string GerenciadorFluxo::detectarGargalos(const FilaAtendimento* fila) cons
         return "Erro: Fila nao identificada.";
     }
 
-    // 1. Verifica volume de pacientes na fila
+    // Verifica volume de pacientes na fila
     if (fila->getTamanho() >= m_limiteTamanhoFila) {
         return "Gargalo Critico: Fila muito longa! (" + 
                std::to_string(fila->getTamanho()) + " pacientes aguardando).";
     }
 
-    // 2. Verifica o tempo de espera projetado para o último paciente da fila
+    // Verifica o tempo de espera projetado para o último paciente da fila
     if (!fila->estaVazia()) {
         const auto& lista = fila->getFila();
         Atendimento* ultimoDaFila = lista.back();

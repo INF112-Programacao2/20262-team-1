@@ -1,8 +1,8 @@
 #include "../include/ServicoNotificacao.h"
 
 
-#include "../include/ServicoNotificacao.hpp"
-#include "../include/Atendimento.hpp"
+#include "../include/ServicoNotificacao.h"
+#include "../include/Atendimento.h"
 #include "../include/Setor.h" // Ajuste para "setor.h" se o arquivo estiver em minúsculo
 
 // #include "../include/Usuario.hpp"
@@ -17,7 +17,7 @@ bool ServicoNotificacao::enviarNotificacao(Usuario* u, const std::string& msg) {
         return false;
     }
 
-    /* DEFINITIVO (quando Usuario.hpp estiver pronto):
+    /*  (quando Usuario.hpp estiver pronto):
      * std::string registro = "[Para: " + u->getNome() + "] " + msg;
      */
     std::string registro = "[Notificacao Direta] " + msg;
@@ -57,7 +57,7 @@ void ServicoNotificacao::chamarPaciente(Paciente* p) {
         return;
     }
 
-    /* DEFINITIVO (quando Paciente.hpp estiver pronto):
+    /*  (quando Paciente.hpp estiver pronto):
      * std::string registro = "[CHAMADA] Paciente " + p->getNome() + ", comparecer ao atendimento.";
      */
     std::string registro = "[CHAMADA] Proximo paciente convocado para atendimento.";
