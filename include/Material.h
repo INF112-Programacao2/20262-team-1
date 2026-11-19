@@ -7,14 +7,14 @@
 
 class Material : public RecursoHospitalar {
 private:
-    std::string unidadeMedida;
-    double quantidade;
+    std::string m_unidadeMedida;
+    double m_quantidade;
 
 public:
-    Material();
     Material(int id, std::string nome, const std::string descricao, std::string unidadeMedida, double quantidade);
 
     void retirar(double qtd);
     void reabastecer(double qtd);
+    double getQuantidade();
 };
 #endif // MATERIAL_H

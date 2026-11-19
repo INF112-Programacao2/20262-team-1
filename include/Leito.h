@@ -7,9 +7,9 @@ class Paciente;
 
 class Leito {
 private:
-    int id;
-    StatusLeito status;
-    Paciente* paciente;
+    int m_id;
+    StatusLeito m_status;
+    Paciente* m_paciente;
 
 public:
     ~Leito();

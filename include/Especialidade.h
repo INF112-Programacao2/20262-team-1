@@ -5,9 +5,9 @@
 
 class Especialidade {
 private:
-    int id;
-    std::string nome;
-    std::string descricao;
+    int m_id;
+    std::string m_nome;
+    std::string m_descricao;
 
 public:
     Especialidade(int id, std::string nome, std::string descricao);
