@@ -5,10 +5,11 @@
 #include <vector>
 
 #include "ItemReceita.h"   // composição: os itens pertencem à receita
-#include "Paciente.h"
 #include "Medicamento.h"
+
+// Declarações antecipadas: Paciente.h já inclui este arquivo (evita include circular)
+class Paciente;
 class ProfissionalSaude;
-//#include "ProfissionalSaude.h"
 
 
 class ReceitaMedica {

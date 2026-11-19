@@ -1,4 +1,4 @@
-#ifndef STATUDATENDIMENTO_H
+#ifndef STATUSATENDIMENTO_H
 #define STATUSATENDIMENTO_H
 
 // Estados do atendimento 
