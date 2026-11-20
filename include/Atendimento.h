@@ -8,14 +8,10 @@
 
 #include "FilaAtendimento.h"
 #include "StatusAtendimento.h"
-class Procedimento;
-class ProfissionalSaude;
-class Paciente;
-/* 
 #include "Procedimento.h"   // composicao: o atendimento é dono dos procedimentos
 #include "ProfissionalSaude.h"
 #include "Paciente.h"
-*/
+
 
 class Atendimento {
 private:

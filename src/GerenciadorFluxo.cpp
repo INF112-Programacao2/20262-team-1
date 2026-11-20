@@ -36,7 +36,7 @@ Setor* GerenciadorFluxo::recomendarProximoSetor(Atendimento* a, const std::vecto
 
     Setor* melhorSetor = nullptr;
     double menorTaxaOcupacao = 101.0; // Começa acima de 100% para encontrar o menor
-    bool isEmergencia = (a->getPrioridade() >= 4);
+    bool isEmergencia = (static_cast<int>(a->getPrioridade()) >= 4);
 
     for (Setor* setor : setoresAtivos) {
         if (setor == nullptr || monitorarSobrecargas(setor)) {
@@ -72,7 +72,7 @@ bool GerenciadorFluxo::verificarMudancaSetor(Atendimento* a) {
     
     // Se a prioridade do paciente subir para urgente/emergência (4 ou 5),
     // sinaliza necessidade de transferência (ex: da triagem/enfermaria para UTI)
-    return a->getPrioridade() >= 4;
+    return static_cast<int>(a->getPrioridade()) >= 4;
 }
 
 bool GerenciadorFluxo::monitorarSobrecargas(Setor* s) {

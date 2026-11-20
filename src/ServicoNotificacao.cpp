@@ -1,12 +1,8 @@
 #include "../include/ServicoNotificacao.h"
-
-
-#include "../include/ServicoNotificacao.h"
 #include "../include/Atendimento.h"
-#include "../include/Setor.h" // Ajuste para "setor.h" se o arquivo estiver em minúsculo
-
-// #include "../include/Usuario.hpp"
-// #include "../include/Paciente.hpp"
+#include "../include/Setor.h"
+#include "../include/Usuario.h"
+#include "../include/Paciente.h"
 
 ServicoNotificacao::ServicoNotificacao() {}
 
@@ -17,10 +13,8 @@ bool ServicoNotificacao::enviarNotificacao(Usuario* u, const std::string& msg) {
         return false;
     }
 
-    /*  (quando Usuario.hpp estiver pronto):
-     * std::string registro = "[Para: " + u->getNome() + "] " + msg;
-     */
-    std::string registro = "[Notificacao Direta] " + msg;
+    std::string registro = "[Para: " + u->getNome() + 
+                           " (ID: " + std::to_string(u->getId()) + ")] " + msg;
     
     historicoNotificacoes.push_back(registro);
     return true;
@@ -31,8 +25,9 @@ void ServicoNotificacao::notificarMudancaSetor(Atendimento* a) {
         return;
     }
 
+    int prioridadeNum = static_cast<int>(a->getPrioridade());
     std::string registro = "[Mudanca de Setor] Paciente ID " + a->getIdPaciente() + 
-                           " (Prioridade " + std::to_string(a->getPrioridade()) + 
+                           " (Prioridade " + std::to_string(prioridadeNum) + 
                            ") deve ser transferido de setor.";
                            
     historicoNotificacoes.push_back(registro);
@@ -57,10 +52,9 @@ void ServicoNotificacao::chamarPaciente(Paciente* p) {
         return;
     }
 
-    /*  (quando Paciente.hpp estiver pronto):
-     * std::string registro = "[CHAMADA] Paciente " + p->getNome() + ", comparecer ao atendimento.";
-     */
-    std::string registro = "[CHAMADA] Proximo paciente convocado para atendimento.";
+    std::string registro = "[CHAMADA] Paciente " + p->getNome() + 
+                           " (ID: " + std::to_string(p->getId()) + 
+                           "), comparecer ao atendimento.";
     
     historicoNotificacoes.push_back(registro);
 }
