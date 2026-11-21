@@ -14,10 +14,10 @@ std::string RegistroAuditoria::gerarTimestampAtual() const {
         return "0000-00-00 00:00:00";
     }
 
-    char buffer[20]; // Cria espaço temporário para os caracteres do tempoLocal
+    char buffer[64]; // Cria espaço temporário para os caracteres do tempoLocal
     std::snprintf(
         buffer, // Guarda o resultado em buffer
-        sizeof(buffer), // trava o limite em 20 nytes para evitar estouro de memória
+        sizeof(buffer), // trava o limite em 64 nytes para evitar estouro de memória
         "%04d-%02d-%02d %02d:%02d:%02d", // Formatação "AAAA-MM-DD HH::MM::SS"
         tempoLocal->tm_year + 1900,
         tempoLocal->tm_mon + 1,
