@@ -6,6 +6,9 @@
 CXX      := g++
 CXXFLAGS := -std=c++17 -Wall -Wextra -MMD -MP
 
+# Bibliotecas externas
+LDLIBS := -lsqlite3
+
 # Diretórios do projeto
 SRC_DIR   := src
 INC_DIR   := include
@@ -54,11 +57,11 @@ all: $(TARGET)
 
 # Compila o programa principal
 $(TARGET): $(OBJS_MAIN) | $(BIN_DIR)
-	$(CXX) $(OBJS_MAIN) -o $@
+	$(CXX) $(OBJS_MAIN) -o $@ $(LDLIBS)
 
 # Compila o executável de testes (Classes de src/ + Ficheiros de teste)
 $(TEST_TARGET): $(OBJS_COMMON) $(OBJS_TESTS) | $(BIN_DIR)
-	$(CXX) $(OBJS_COMMON) $(OBJS_TESTS) -o $@
+	$(CXX) $(OBJS_COMMON) $(OBJS_TESTS) -o $@ $(LDLIBS)
 
 # Regra genérica para compilar qualquer .cpp para .o mantendo a estrutura de pastas
 $(BUILD_DIR)/%.o: %.cpp
@@ -87,5 +90,5 @@ clean:
 
 # Executa apenas um teste específico pelo nome (sem a extensão .cpp)
 test-%: $(TEST_DIR)/%.cpp $(OBJS_COMMON) | $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(OBJS_COMMON) $< -o $(BIN_DIR)/$*
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(OBJS_COMMON) $< -o $(BIN_DIR)/$* $(LDLIBS)
 	./$(BIN_DIR)/$*
