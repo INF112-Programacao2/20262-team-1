@@ -17,5 +17,6 @@ public:
     void liberar();
     void iniciarManutencao();
     void finalizarManutencao();
+    StatusEquipamento getStatus();
 };
 #endif // EQUIPAMENTO_H

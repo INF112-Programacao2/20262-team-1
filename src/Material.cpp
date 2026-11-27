@@ -1,8 +1,7 @@
-
 #include "../include/Material.h"
 Material::Material(int id, std::string nome, const std::string descricao, std::string unidadeMedida, double quantidade) : RecursoHospitalar(id, nome, descricao){
     m_unidadeMedida=unidadeMedida;
-    m_quantidade=quantidade;
+    m_quantidade = quantidade > 0 ? quantidade : 0.0;
 }
 
 void Material::retirar(double qtd) {
@@ -19,4 +18,8 @@ void Material::reabastecer(double qtd) {
 
 double Material::getQuantidade() {
     return m_quantidade;
+}
+
+std::string Material::getUnidadeMedida(){
+    return m_unidadeMedida;
 }

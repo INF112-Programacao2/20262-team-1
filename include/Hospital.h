@@ -20,6 +20,7 @@ public:
     void removerSetor(Setor* s);
     void removerSetor(int sID);
     Setor* buscarSetor(int id);
+    const std::vector<Setor*>& getSetores() const;
 
     std::string getNome();
     std::string getEndereco();

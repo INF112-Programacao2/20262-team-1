@@ -18,7 +18,10 @@ public:
     void alocarPaciente(Paciente* p);
     void bloquear();
     void liberar();
+    void desbloquear();
     bool verificarDisponibilidade();
+    StatusLeito getStatus();
+    Paciente* getPaciente();
     
     int getId();
 };

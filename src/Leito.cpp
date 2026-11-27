@@ -30,6 +30,17 @@ void Leito::liberar() {
         m_status = StatusLeito::DISPONIVEL;
     }
 }
+StatusLeito Leito::getStatus(){
+    return m_status;
+}
+Paciente* Leito::getPaciente(){
+    return m_paciente;
+}
+void Leito::desbloquear(){
+    if(m_status==StatusLeito::BLOQUEADO){
+        m_status=StatusLeito::DISPONIVEL;
+    }
+}
 
 bool Leito::verificarDisponibilidade() {
     return m_status == StatusLeito::DISPONIVEL;

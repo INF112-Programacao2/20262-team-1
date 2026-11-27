@@ -7,16 +7,24 @@ Hospital::Hospital(std::string nome, std::string endereco){
 }
 
 Hospital::~Hospital() {
-    while (m_setores.size()>0) {
-        delete m_setores[0];
+    for (Setor* s : m_setores) {
+        delete s;
     }
     m_setores.clear();
 }
 
 void Hospital::adicionarSetor(Setor* s) {
-    if (s != nullptr) {
-        m_setores.push_back(s);
+    if (s == nullptr) {
+        return;
     }
+
+    for (Setor* existente : m_setores) {
+        if (existente == s || existente->getId() == s->getId()) {
+            return;
+        }
+    }
+
+    m_setores.push_back(s);
 }
 
 void Hospital::removerSetor(Setor* s) {
@@ -48,6 +56,10 @@ Setor* Hospital::buscarSetor(int id) {
         }
     }
     return nullptr;
+}
+
+const std::vector<Setor*>& Hospital::getSetores() const {
+    return m_setores;
 }
 
 std::string Hospital::getNome() {

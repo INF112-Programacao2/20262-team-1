@@ -1,4 +1,3 @@
-
 #include "Setor.h"
 #include "Leito.h"
 #include "RecursoHospitalar.h"
@@ -178,4 +177,13 @@ std::string Setor::getDescricao(){
 
 int Setor::getCapacidade(){
     return m_capacidadeMaxima;
+}
+
+
+const std::vector<Leito*>& Setor::getLeitos() const {
+    return m_leitos;
+}
+
+const std::vector<Especialidade*>& Setor::getEspecialidades() const {
+    return m_especialidades;
 }

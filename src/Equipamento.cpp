@@ -29,6 +29,10 @@ void Equipamento::iniciarManutencao() {
     }
 }
 
+StatusEquipamento Equipamento::getStatus(){
+    return m_status;
+}
+
 void Equipamento::finalizarManutencao() {
     if (m_status == StatusEquipamento::EM_MANUTENCAO) {
         m_status = StatusEquipamento::DISPONIVEL;

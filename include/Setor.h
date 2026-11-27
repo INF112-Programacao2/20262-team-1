@@ -42,5 +42,7 @@ public:
     std::string getNome();
     std::string getDescricao();
     int getCapacidade();
+    const std::vector<Leito*>& getLeitos() const;
+    const std::vector<Especialidade*>& getEspecialidades() const;
 };
 #endif // SETOR_H

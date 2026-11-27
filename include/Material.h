@@ -16,5 +16,6 @@ public:
     void retirar(double qtd);
     void reabastecer(double qtd);
     double getQuantidade();
+    std::string getUnidadeMedida();
 };
 #endif // MATERIAL_H
